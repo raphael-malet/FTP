@@ -1,0 +1,26 @@
+#!/bin/bash
+#création des users
+apt-get update && apt-get -y upgrade
+apt-get install -y sudo
+sudo apt-get install -y proftpd-*
+sudo apt-get install -y openssl
+sudo useradd -m "Merry" -p "$(echo "kalimac" | openssl passwd -1 -stdin)"
+sudo useradd -m "Pippin" -p "$(echo "secondbreakfast" | openssl passwd -1 -stdin)"
+
+#copie du dossier config dans etc
+sudo cp -r configproftpd /etc/proftpd/
+
+#liens entre config voulu et la config actuelle
+sudo ln -sf /etc/proftpd/configproftpd/proftpd.conf /etc/proftpd/proftpd.conf
+sudo ln -sf /etc/proftpd/configproftpd/tls.conf /etc/proftpd/tls.conf
+sudo ln -sf /etc/proftpd/configproftpd/modules.conf /etc/proftpd/modules.conf
+
+#création dossier et clé ssl 
+mkdir /etc/proftpd/ssl
+sudo openssl req -new -x509 -keyout /etc/proftpd/ssl/proftpd.key.pem -days 365 -nodes -out /etc/proftpd/ssl/proftpd.cert.pem
+
+sudo chmod 640 /etc/proftpd/ssl/proftpd.key.pem
+sudo chmod 640 /etc/proftpd/ssl/proftpd.cert.pem
+
+#lancer le serveur FTPS
+sudo service proftpd restart
