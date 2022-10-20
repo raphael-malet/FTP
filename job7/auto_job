@@ -7,17 +7,27 @@ sudo apt-get install -y openssl
 sudo useradd -m "Merry" -p "$(echo "kalimac" | openssl passwd -1 -stdin)"
 sudo useradd -m "Pippin" -p "$(echo "secondbreakfast" | openssl passwd -1 -stdin)"
 
-#copie du dossier config dans etc
-sudo cp -r configproftpd /etc/proftpd/
+#copie des config.conf dans etc/proftpd/conf.d
+sudo cp configproftpd/proftpd.conf /etc/proftpd/conf.d
+sudo cp configproftpd/tls.conf /etc/proftpd/conf.d
+sudo cp configproftpd/modules.conf /etc/proftpd/conf.d
 
 #liens entre config voulu et la config actuelle
-sudo ln -sf /etc/proftpd/configproftpd/proftpd.conf /etc/proftpd/proftpd.conf
-sudo ln -sf /etc/proftpd/configproftpd/tls.conf /etc/proftpd/tls.conf
-sudo ln -sf /etc/proftpd/configproftpd/modules.conf /etc/proftpd/modules.conf
+sudo ln -sf /etc/proftpd/conf.d/proftpd.conf /etc/proftpd/proftpd.conf
+sudo ln -sf /etc/proftpd/conf.d/tls.conf /etc/proftpd/tls.conf
+sudo ln -sf /etc/proftpd/conf.d/modules.conf /etc/proftpd/modules.conf
 
 #création dossier et clé ssl 
-mkdir /etc/proftpd/ssl
-sudo openssl req -new -x509 -keyout /etc/proftpd/ssl/proftpd.key.pem -days 365 -nodes -out /etc/proftpd/ssl/proftpd.cert.pem
+sudo mkdir /etc/proftpd/ssl
+sudo openssl req -new -x509 -keyout /etc/proftpd/ssl/proftpd.key.pem -days 365 -nodes -out /etc/proftpd/ssl/proftpd.cert.pem <<EOT
+FR
+France
+.
+.
+.
+.
+.
+EOT
 
 sudo chmod 640 /etc/proftpd/ssl/proftpd.key.pem
 sudo chmod 640 /etc/proftpd/ssl/proftpd.cert.pem
