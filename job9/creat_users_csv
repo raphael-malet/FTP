@@ -15,7 +15,7 @@ while IFS=, read -r COL1 COL2 COL3 COL4 COL5; do
 done <"$MY_INPUT"
 
 for index in "${!prenom[@]}"; do
-  sudo useradd -m -s /bin/bash -p "$(echo "${mdp[$index]}" | openssl passwd -1 -stdin)" -u "${id[$index]}" --badnames "${prenom[$index]}-${nom[$index]}"
+  sudo useradd -m "${prenom[$index]}-${nom[$index]}" -s /bin/bash -p "$(echo "${mdp[$index]}" | openssl passwd -1 -stdin)" -u "${id[$index]}"
 
 if [ "${role[$index]}" == Admin ]
 then
