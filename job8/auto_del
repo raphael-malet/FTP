@@ -1,6 +1,0 @@
-#!/bin/bash
-sudo service proftpd stop
-sudo userdel -r Merry && sudo userdel -r Pippin
-sudo apt-get remove --purge proftpd-* -y
-sudo apt-get remove --purge openssl -y
-sudo apt-get remove --purge sudo -y
